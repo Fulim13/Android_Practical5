@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.demo.data.Friend
 import com.example.demo.databinding.ItemFriendBinding
 
+//every Recycle View need a Adapter
 class FriendAdapter (
     val fn: (ViewHolder, Friend) -> Unit = { _, _ -> }
 ) : ListAdapter<Friend, FriendAdapter.ViewHolder>(Diff) {
@@ -25,7 +26,7 @@ class FriendAdapter (
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val f = getItem(position)
         // TODO: Load image from blob
-        // holder.binding.imgPhoto
+        holder.binding.imgPhoto.setImageBlob(f.photo)
         holder.binding.txtId.text = f.id
         holder.binding.txtName.text = f.name
         holder.binding.txtAge.text = f.age.toString()

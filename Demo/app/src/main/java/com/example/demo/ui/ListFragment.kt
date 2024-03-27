@@ -33,6 +33,7 @@ class ListFragment : Fragment() {
         }
 
         binding.rv.adapter = adapter
+//        ---- separate line -----
         binding.rv.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
 
         vm.friendsLD.observe(viewLifecycleOwner) {

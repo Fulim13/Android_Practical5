@@ -1,39 +1,27 @@
-package com.example.demo.ui
+1. create project in firebase
+2. create firestore in firebase
+3. create document in firebase
+4. optional manual adding google-service.json
+5. autolink firestore with tools> Firebase
+6. change android view to project view to see the google-service.json
+7. Data.kt 
+--------------------------------------------------------------------------------------------------------------------
+package com.example.demo.data
 
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
-import com.example.demo.data.Friend
-import com.example.demo.databinding.FragmentHomeBinding
-import com.example.demo.util.toast
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.firestore.toObjects
-import com.google.firebase.ktx.Firebase
+import com.google.firebase.firestore.Blob
+import com.google.firebase.firestore.DocumentId
 
-class HomeFragment : Fragment() {
+// TODO: Specify document id
+data class Friend (
+    @DocumentId
+    val id: String = "",
+    val name: String = "",
+    val age: Int = 0,
+    val photo: Blob = Blob.fromBytes(ByteArray(0))
+)
+--------------------------------------------------------------------------------------------------------------------
 
-    private lateinit var binding: FragmentHomeBinding
-    private val nav by lazy { findNavController() }
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = FragmentHomeBinding.inflate(inflater, container, false)
-
-        // -----------------------------------------------------------------------------------------
-        //every time the activity run, it will read
-        read()
-        binding.btnRead.setOnClickListener   { read() }
-        binding.btnInsert.setOnClickListener { insert() }
-        binding.btnUpdate.setOnClickListener { update() }
-        binding.btnDelete.setOnClickListener { delete() }
-
-        // -----------------------------------------------------------------------------------------
-
-        return binding.root
-    }
-
+8. HomeFragment.kt
     private fun read() {
         // TODO: Read all records
         Firebase.firestore.collection("friends")
@@ -83,5 +71,11 @@ class HomeFragment : Fragment() {
             }
 
     }
+--------------------------------------------------------------------------------------------------------------------
+Friends VMkt
 
-}
+FriendAdapter
+ListFragment
+InsertFragment
+UpdateFragment
+

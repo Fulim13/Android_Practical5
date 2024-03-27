@@ -41,7 +41,11 @@ class UpdateFragment : Fragment() {
 
     private fun reset() {
         // TODO: Get record by id
-        val f = Friend()
+        val f = vm.get(friendId)
+        if(f == null) {
+            nav.navigateUp()
+            return
+        }
 
         binding.txtId.text = f.id
         binding.edtName.setText(f.name)

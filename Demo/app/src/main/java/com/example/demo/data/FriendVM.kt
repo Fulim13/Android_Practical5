@@ -3,8 +3,11 @@ package com.example.demo.data
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.toObjects
+
 import com.google.firebase.ktx.Firebase
 
+// ViewModel create in Activity can share in each Fragment
 class FriendVM : ViewModel() {
 
     val friendsLD = MutableLiveData<List<Friend>>()
@@ -13,7 +16,7 @@ class FriendVM : ViewModel() {
     private val col = Firebase.firestore.collection("friends")
     init {
         // TODO: Add snapshot listener (real-time updates)
-
+        col.addSnapshotListener { v, _ ->  friendsLD.value = v?.toObjects() }
     }
 
     // ---------------------------------------------------------------------------------------------
@@ -24,16 +27,17 @@ class FriendVM : ViewModel() {
 
     fun delete(id: String) {
         // TODO: Delete record by id
-
+        col.document(id).delete()
     }
 
     fun deleteAll() {
         // TODO: Delete all records
-
+        friendsLD.value?.forEach{ col.document(it.id).delete() }
     }
 
     fun set(f: Friend) {
         // TODO: Set record (insert or update)
+        col.document(f.id).set(f)
 
     }
 
@@ -42,8 +46,8 @@ class FriendVM : ViewModel() {
     private fun idExists(id: String) = friendsLD.value?.any { it.id == id } ?: false
 
     fun validate(f: Friend, insert: Boolean = true): String {
-        val regexId = Regex("""^[0-9A-Z]{4}$""")
-        var e = ""
+        val regexId = Regex("""^[0-9A-Z]{4}$""") //0-9A-Z , 4 only
+        var e = "" //error message
 
         if (insert) {
             e += if (f.id == "") "- Id is required.\n"

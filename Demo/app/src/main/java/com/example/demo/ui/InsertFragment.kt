@@ -4,11 +4,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import com.example.demo.data.Friend
 import com.example.demo.data.FriendVM
 import com.example.demo.databinding.FragmentInsertBinding
+import com.example.demo.util.cropToBlob
+import com.example.demo.util.errorDialog
+import com.example.demo.util.setImageBlob
 
 class InsertFragment : Fragment() {
 
@@ -42,21 +47,36 @@ class InsertFragment : Fragment() {
     }
 
     // TODO: Get-content launcher
-    private val getContent = 0
+    private val getContent = registerForActivityResult(ActivityResultContracts.GetContent()) {
+        binding.imgPhoto.setImageURI(it)
+    }
 
     private fun select() {
         // TODO: Select file
-
+        getContent.launch("image/*")
     }
 
     private fun submit() {
         // TODO: Friend object
-        val f = 0
+        val f = Friend(
+            id    = binding.edtId.text.toString().trim(),
+            name  = binding.edtName.text.toString().trim(),
+            age   = binding.edtAge.text.toString().toIntOrNull() ?: 0,
+            photo = binding.imgPhoto.cropToBlob(300, 300)
+        )
+
 
         // TODO: Validation
-        val e = 0
+        val e = vm.validate(f)
+        if (e != "") {
+            errorDialog(e)
+            return
+        }
+
 
         // TODO: Set (insert) and back
+        vm.set(f)
+        nav.navigateUp()
 
     }
 
