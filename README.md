@@ -1,9 +1,9 @@
-1. create project in firebase
-2. create firestore in firebase
-3. create document in firebase
-4. optional manual adding google-service.json
-5. autolink firestore with tools> Firebase
-6. change android view to project view to see the google-service.json
+1. Create project in firebase
+2. Create firestore in firebase
+3. Create document in firebase
+4. Optional manual adding google-service.json
+5. Autolink firestore with tools> Firebase
+6. Change android view to project view to see the google-service.json
 7. Data.kt 
 ```kotlin
 package com.example.demo.data
