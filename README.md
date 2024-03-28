@@ -5,7 +5,7 @@
 5. autolink firestore with tools> Firebase
 6. change android view to project view to see the google-service.json
 7. Data.kt 
-```
+```kotlin
 package com.example.demo.data
 
 import com.google.firebase.firestore.Blob
@@ -21,7 +21,7 @@ data class Friend (
 )
 ```
 8. HomeFragment.kt
-```
+```kotlin
     private fun read() {
         // TODO: Read all records
         Firebase.firestore.collection("friends")
